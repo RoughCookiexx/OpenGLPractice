@@ -1,10 +1,13 @@
-﻿Build started 6/7/2015 12:46:01 PM.
+﻿Build started 6/8/2015 1:02:28 AM.
      1>Project "C:\Users\tommy\Workspace\OpenGLpoop\OpenGLpoop\OpenGLpoop.vcxproj" on node 2 (Build target(s)).
      1>InitializeBuildStatus:
          Creating "x64\Debug\OpenGLpoop.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /IC:\Users\tommy\Workspace\OpenGLpoop\OpenGLpoop\GLFW /Zi /nologo /W3 /WX- /Od /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc110.pdb" /Gd /TP /errorReport:prompt main.cpp
-         main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /IC:\Users\tommy\Workspace\OpenGLpoop\OpenGLpoop\GLFW /Zi /nologo /W3 /WX- /Od /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc110.pdb" /Gd /TP /errorReport:prompt graph_renderer.cpp
+         graph_renderer.cpp
+     1>C:\Program Files (x86)\Windows Kits\8.0\Include\shared\minwindef.h(130): warning C4005: 'APIENTRY' : macro redefinition
+                 c:\users\tommy\workspace\openglpoop\openglpoop\lib\glfw3.h(85) : see previous definition of 'APIENTRY'
+     1>graph_renderer.cpp(17): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\tommy\Workspace\OpenGLpoop\x64\Debug\OpenGLpoop.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:C:\Users\tommy\Workspace\OpenGLpoop\OpenGLpoop\lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib glfw3.lib glfw3dll.lib opengl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\tommy\Workspace\OpenGLpoop\x64\Debug\OpenGLpoop.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\tommy\Workspace\OpenGLpoop\x64\Debug\OpenGLpoop.lib" /MACHINE:X64 x64\Debug\graph_renderer.obj
          x64\Debug\main.obj
@@ -19,4 +22,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.44
+Time Elapsed 00:00:01.07
