@@ -3,14 +3,14 @@
 #include "lib\glfw3.h"
 #include "lib\wglew.h"
 #include <gl\GL.h>
-#include "weighted_graph.h"
+#include "gl_renderable_graph.h"
 #include <mutex>
 class graph_renderer
 {
 public:
-
-	graph_renderer();
-	float render(GLFWwindow* window,weighted_graph* graph);
+	float render(GLFWwindow* window);
+	graph_renderer(void);
 	~graph_renderer(void);
+
 };
 

@@ -120,16 +120,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="gl_renderable_graph.h" />
     <ClInclude Include="graph_renderer.h" />
+    <ClInclude Include="input_handler.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="random_sorted_graph.h" />
     <ClInclude Include="render_shape.h" />
     <ClInclude Include="weighted_graph.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="gl_renderable_graph.cpp" />
     <ClCompile Include="graph_renderer.cpp" />
+    <ClCompile Include="input_handler.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="random_sorted_graph.cpp" />
     <ClCompile Include="render_shape.cpp" />
     <ClCompile Include="weighted_graph.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="graph.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -6,6 +6,8 @@
 #include "lib\wglew.h"
 #include <GL/GL.h>
 #include "graph_renderer.h"
+#include "input_handler.h"
+#include "weighted_graph.h"
 
 class main
 {

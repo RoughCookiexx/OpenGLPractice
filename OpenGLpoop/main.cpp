@@ -4,85 +4,27 @@ using namespace std;
 
 ofstream debug_file;
 graph_renderer *graph_render_pointer;
-weighted_graph *graph;
+gl_renderable_graph *graph;
+input_handler *input;
 static GLFWwindow* window;
 
-
-int num_nodes = 4000;
+int num_nodes = 1000;
 int max_degree = 3;
-
 
 bool done;
 
-// blatant memory leak:
-static void create_new_graph()
-{
-	int w, h;
-	glfwGetWindowSize(window, &w, &h);
-	
-	graph->mtx.lock();
-		graph->create_random_test_graph(w,h);
-	graph->mtx.unlock();
-} // regularly make destructors.
-
-
-int main(int argc, char **argv)
-{
-	FreeConsole();// this just hides the console window
-
-	done = false; //  !done ... just getting started.
-	debug_file.open("debug.log");
-	debug_file << "Starting Program\n";
-	
-	graph = new weighted_graph(num_nodes, max_degree);
-
-	// glfw handles a lot. Get it started right away. 
-	// it makes this program platform specific. 
-	// i'm already working on threading so seperating out any platform specifics early is a must.
-	if (!glfwInit())
-		exit(EXIT_FAILURE);
-
-	window = glfwCreateWindow(1920, 1080, "ALK_Project", glfwGetPrimaryMonitor(), NULL);
-
-	if (!window)
-	{
-		glfwTerminate();
-		exit(EXIT_FAILURE);
-	}
-
-	create_new_graph();
-
-	//Start up our main threads:
-	thread graphProcessingThread(main::StartGraphProcessingThread);
-	thread renderThread(main::StartRenderThread);
-	thread inputThread(main::StartInputThread);
-
-	while (!done)
-	{
-		glfwWaitEvents();
-	}
-	//Collect main threads:
-	graphProcessingThread.join();
-	inputThread.join();
-	renderThread.join();
-
-	debug_file << "Exiting Main Thread\n";
-	debug_file.close();
-	return 0;
-}
-
-
-// i honestly don't know how this links. it's magic to me right now and i love it.
+// This handles all mapped key input.
+// It is linked in the main thread for now.
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	if(action == GLFW_PRESS)
 	{
-		debug_file << "Key pressed: " +key;
+		weighted_graph* graph = reinterpret_cast<weighted_graph*>(glfwGetWindowUserPointer(window));
+		//debug_file << "Key pressed: " +key;
 		switch(key)
 		{
 			case GLFW_KEY_ESCAPE:
 				glfwSetWindowShouldClose(window, GL_TRUE);
-				done = true;
 				break;
 			case GLFW_KEY_UP:
 				num_nodes++;
@@ -91,45 +33,89 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 				num_nodes--;
 				break;
 			case GLFW_KEY_RIGHT:
-				max_degree++;
+				graph->max_degree++;
 				break;
 			case GLFW_KEY_LEFT:
-				max_degree--;
+				graph->max_degree--;
 				break;
 			case GLFW_KEY_SPACE:
-				create_new_graph();
+				int w, h;
+				glfwGetWindowSize(window, &w, &h);
+				//graph->clear();
+				graph->create_random_test_graph(w,h);
 				break;
 		}
 	}
 }
 
-
-// create an input handler ***
-GLdouble fovy;
-GLdouble aspect;
-GLdouble znear;
-GLdouble zfar;
-
-
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+int main(int argc, char **argv)
 {
-	glMatrixMode(GL_PROJECTION);
-	//gluPerspective(
+	FreeConsole();// this just hides the console window
+
+	done = false; //  !done ... just getting started.
+	debug_file.open("debug.log");
+	debug_file << "Starting Program\n";
+
+	// glfw handles a lot. Get it started right away. 
+	// it makes this program platform specific. 
+	// i'm already working on threading so seperating out any platform specifics early is a must.
+	if (!glfwInit())
+		exit(EXIT_FAILURE);
+
+	// This gives us a pointer to our data which we can use at any point:
+	window = glfwCreateWindow(1920, 1080, "ALK_Project", glfwGetPrimaryMonitor(), NULL);
+	graph = new weighted_graph(num_nodes, max_degree);
+	glfwSetWindowUserPointer(window, graph);
+	
+	glfwSetKeyCallback(window, key_callback);
+
+	if (!window)
+	{
+		glfwTerminate();
+		exit(EXIT_FAILURE);
+	}
+
+	int w, h;
+	glfwGetWindowSize(window, &w, &h);
+	graph->create_random_test_graph(w,h);
+
+
+	//Start up our main threads:
+	thread graphProcessingThread(main::StartGraphProcessingThread);
+	thread renderThread(main::StartRenderThread);
+	//thread inputThread(main::StartInputThread);
+
+	
+	while (!glfwWindowShouldClose(window))
+	{
+		glfwWaitEvents();
+	}
+
+	//Collect main threads:
+	graphProcessingThread.join();
+	renderThread.join();
+	//inputThread.join();
+	
+	glfwDestroyWindow(window);
+
+	debug_file << "Exiting Main Thread\n";
+	debug_file.close();
+	return 0;
 }
+
 
 void main::StartRenderThread()
 {
 	debug_file << "Starting Render Thread\n";
-
+	
 	glfwMakeContextCurrent(window);
+	
 	glfwSwapInterval(1);
-	glfwSetKeyCallback(window, key_callback);
 	graph_render_pointer = new graph_renderer();
 	while (!glfwWindowShouldClose(window))
 	{
-		graph_render_pointer->graph_renderer::render(window, graph);
+		graph_render_pointer->graph_renderer::render(window);
 	}
-	glfwDestroyWindow(window);
 }
 
 void main::StartGraphProcessingThread()
@@ -140,9 +126,16 @@ void main::StartGraphProcessingThread()
 void main::StartInputThread()
 {
 	debug_file << "Starting Input Thread\n";
-
+	
+	input = new input_handler(window);
+	while(!glfwWindowShouldClose(window))
+	{
+		input->handle_event();
+	}
+	/*
 	do
 	{
-		glfwWaitEvents();
-	}while(!done);
+		glfwPollEvents();
+		Sleep(100);
+	}while(!done);*/
 }

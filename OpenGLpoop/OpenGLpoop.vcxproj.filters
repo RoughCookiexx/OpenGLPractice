@@ -27,6 +27,15 @@
     <ClInclude Include="weighted_graph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="input_handler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="random_sorted_graph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gl_renderable_graph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -41,5 +50,17 @@
     <ClCompile Include="weighted_graph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="input_handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="random_sorted_graph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gl_renderable_graph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="graph.txt" />
   </ItemGroup>
 </Project>
