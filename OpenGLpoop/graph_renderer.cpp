@@ -34,11 +34,10 @@ float graph_renderer::render(GLFWwindow* window)
 	{
 		gl_renderable_graph::edge* render_edge = &(graph->edges[i]);
 		
-		glColor3f(0.1, 0.6, 7.0);
-		
 		if(render_edge)
 		do
 		{
+			glColor3f(0.5-render_edge->b->y, 0.5, render_edge->b->y+0.5);
 			glVertex3f(render_edge->a->x,render_edge->a->y,render_edge->a->z);
 			glVertex3f(render_edge->b->x,render_edge->b->y,render_edge->a->z);
 			render_edge = render_edge->next;

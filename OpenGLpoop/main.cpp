@@ -8,7 +8,7 @@ gl_renderable_graph *graph;
 input_handler *input;
 static GLFWwindow* window;
 
-int num_nodes = 1000;
+int num_nodes = 500;
 int max_degree = 3;
 
 bool done;
@@ -27,7 +27,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 				glfwSetWindowShouldClose(window, GL_TRUE);
 				break;
 			case GLFW_KEY_UP:
-				num_nodes++;
+				num_nodes++;//arrow keys don't work.
 				break;
 			case GLFW_KEY_DOWN:
 				num_nodes--;
@@ -64,7 +64,11 @@ int main(int argc, char **argv)
 
 	// This gives us a pointer to our data which we can use at any point:
 	window = glfwCreateWindow(1920, 1080, "ALK_Project", glfwGetPrimaryMonitor(), NULL);
-	graph = new weighted_graph(num_nodes, max_degree);
+	
+	
+	//graph = new weighted_graph(num_nodes, max_degree);
+	graph = new random_sorted_graph(num_nodes, max_degree);
+
 	glfwSetWindowUserPointer(window, graph);
 	
 	glfwSetKeyCallback(window, key_callback);

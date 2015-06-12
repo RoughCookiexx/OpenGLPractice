@@ -8,6 +8,7 @@
 #include "graph_renderer.h"
 #include "input_handler.h"
 #include "weighted_graph.h"
+#include "random_sorted_graph.h"
 
 class main
 {

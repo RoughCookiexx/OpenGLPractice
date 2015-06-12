@@ -30,4 +30,5 @@ public:
 	void clear();
 
 	virtual void create_random_test_graph(int width, int height)=0;
+
 };
